@@ -1,0 +1,9 @@
+title: GuptaK
+description: A simple solution for message obfusication
+show_downloads: true
+theme: jekyll-theme-modernist
+plugins:
+ - jekyll-seo-tag
+ - jekyll-sitemap
+ - jekyll-feed
+ - jemoji
