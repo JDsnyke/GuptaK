@@ -18,17 +18,19 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Windows
 
-* Download the latest [Release](https://www.github.com/JDsnyke/GuptaK/releases/latest) .exe file.
+* Download the latest [release](https://www.github.com/JDsnyke/GuptaK/releases/latest) .exe file.
 
 * Run the exe file and install GuptaK.
 
 * Launch program!
 
+```x64 only! Use the .shy for x32 systems!```
+
 ### Mac OS
 
 * Download the latest version of [Shoes 3](http://walkabout.mvmanila.com/downloads/).
 
-* Download the latest [Release](https://www.github.com/JDsnyke/GuptaK/releases/latest) .shy file.
+* Download the latest [release](https://www.github.com/JDsnyke/GuptaK/releases/latest) .shy file for OSX.
 
 * Launch the .shy using Shoes 3.
 
@@ -36,9 +38,27 @@ These instructions will get you a copy of the project up and running on your loc
 
 * Download the latest version of [Shoes 3](http://walkabout.mvmanila.com/downloads/).
 
-* Download the latest [Release](https://www.github.com/JDsnyke/GuptaK/releases/latest) .shy file. 
+* Download the latest [release](https://www.github.com/JDsnyke/GuptaK/releases/latest) .shy file for Linux. 
 
 * Launch the .shy using Shoes 3.
+
+## First Time Instructions
+
+1. Click 'Reset Keys' under the 'Help' menu.
+
+![](docs/images/ft_01.png)
+
+2. Click 'Ok' to proceed.
+
+![](docs/images/ft_02.png)
+
+3. Your 'Crypt Keys' have been reset!
+
+![](/docs/images/ft_03.png)
+
+## Screenshots
+
+> WIP
 
 ## Built With
 
@@ -58,10 +78,18 @@ We use [SemVer](https://semver.org/) for versioning. For the available versions,
 
 * **Janith Dissanayake** - Initial work - [JDsnyke](https://github.com/JDsnyke).
 
+* **Thrisen Punithan** - Code Review and Optimize - [Thrisen97](https://github.com/Thrisen97)
+
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
-* Hat tip to anyone whose code was used.
+* [Ruby](https://www.ruby-lang.org/) by by Yukihiro Matsumoto and collaborators.
+* [Shoes 3](https://github.com/shoes/shoes3) by ccoupe and collaborators.
+* Icons by [icons8](https://icons8.com/).
+* Windows binary using NSIS, themed using gaodeng's [BiuSetup](https://github.com/gaodeng/BiuSetup).
+* Various people and code posted on [Stackoverflow](https://stackoverflow.com/questions/tagged/shoes).
+* [Thrisen](https://thrisen.com/) for reviewing and optiizing the code.
+* Hat tip to anyone else whose code was used.

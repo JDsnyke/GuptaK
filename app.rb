@@ -51,19 +51,16 @@
 			docseperator = menuitem "---"
 			helpmenu << docseperator
 			@licenseitem =  menuitem "View License" do
-				readlicense = File.read("LICENSE")
-				alert "#{readlicense}", title: "License Information"
+				alert "Copyright (c) 2019 JDsnyke\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.", title: "MIT License"
 			end
 			helpmenu << @licenseitem
-			@privacypolicyitem =  menuitem "Privacy Policy" do
-				# something
-			end
-			helpmenu << @privacypolicyitem
 			updateseperator = menuitem "---"
 			helpmenu << updateseperator
 			@updateitem =  menuitem "Check for Updates...", key: "control_u" do
 			
-				download "https://github.com/JDsnyke/GuptaK/raw/master/assets/version/latest.ver", :save => "assets/version/latest.ver"
+				Thread.new do 
+					download "https://github.com/JDsnyke/GuptaK/raw/master/assets/version/latest.ver", :save => "assets/version/latest.ver"
+				end
 
 				latest_ver = File.read("assets/version/latest.ver")
 				current_ver = File.read("assets/version/current.ver")
@@ -81,8 +78,6 @@
 							system "open #{updatelink}"
 						elsif RbConfig::CONFIG['host_os'] =~ /linux|bsd/
 							system "xdg-open #{updatelink}"
-						elsif $?.exitstatus > 0
-							alert "Hmmm...\n\nThere seems to be something broken between the terminal and GuptaK.\n\nVisit https://www.github.com/JDsnyke/GuptaK/releases/latest instead!\n\n", title: "Check for Updates - Error"
 						end 
 					end
 				end
@@ -147,30 +142,31 @@
 									para "  "
 									@encrypt_text = edit_box " Enter your super secret message here!", :height => 300, :width => 570
 								end
-								para ""	
+								@p_info = para "  ", :stroke => green
 								flow do
 									para "  "
 									button "Encrypt" do 
-										@encrypt_file_string = @encrypt_text.text
-										i = @encrypt_file_string
-										extract = 0 
-										newsting =""
-										while extract < i.length
-											a = i[extract].ord
-											b = @@crypt_final[a].to_s
-											newsting = newsting + b
-											extract = extract + 1
-											
-									
+										Thread.new do
+											@encrypt_file_string = @encrypt_text.text
+											@p_info.text = "  Replacing content, please wait..."
+											i = @encrypt_file_string
+											extract = 0
+											newstring = ""
+											while extract < i.length
+												a = i[extract].ord
+												b = @@crypt_final[a].to_s
+												newstring = newstring + b
+												extract = extract + 1
+											end
+											if @encrypt_text.text.include? ""
+												encrypt_file_string = newstring
+											end
+											@p_info.text = "  Using secret key and scrambling content, please wait..."
+											final_shuffle =  newstring.to_i * @@crypt_final[129].to_i
+											final_encrypt = final_shuffle.to_s.reverse 
+											@encrypt_text.text = "#{final_encrypt}"
+											@p_info.text = "  Successfully completed!!!"						
 										end
-										if @encrypt_text.text.include? ""
-											encrypt_file_string = newsting
-											
-										end
-										final_shuffle =  newsting.to_i * @@crypt_final[129].to_i
-										final_encrypt = final_shuffle.to_s.reverse 
-										@encrypt_text.text = "#{final_encrypt}"
-										alert "Encryption Complete!", title: "Process Alert"
 									end
 									para "  "
 									button "Go Back" do
@@ -190,7 +186,7 @@
 								para ""
 								flow do
 									para "  "
-									@encrypt_txt_box = edit_line "", :width => 570
+									@encrypt_txt_box = edit_line "Use button below to select file!", :width => 570
 								end
 								flow do
 									para "  "
@@ -202,42 +198,64 @@
 								para ""
 								flow do
 									para "  "
-									@encrypt_txt_save_box = edit_line "", :width => 570
+									@encrypt_txt_save_box = edit_line "Use button below to select save location!", :width => 570
 								end
 								flow do
 									para "  "
 									button "Select Save Location..." do
 										@encrypt_txt_save_select = ask_save_file title: "Select Save Location...", types: {"Text File" => "*.txt"}
 										@encrypt_txt_save_box.text = "#{@encrypt_txt_save_select}"
+										@encrypt_txt_save_select_truncate = @encrypt_txt_save_box.text.chomp(".txt")
+										@encrypt_txt_save_box.text = "#{@encrypt_txt_save_select_truncate}"
 									end
 								end	
-								para "\n"
+								flow do 
+									para "  "
+									@pb = progress :width => 570
+								end 
+								@p_info = para "  ", :stroke => green
 								flow do
 									para "  "
 									button "Encrypt" do
-										@encrypt_file_string = @encrypt_text.text
-										i = @encrypt_file_string
-										extract = 0 
-										newsting =""
-										while extract < i.length
-											a = i[extract].ord
-											b = @@crypt_final[a].to_s
-											newsting = newsting + b
-											extract = extract + 1
-											
-									
+										Thread.new do
+												until @pb.fraction = 0.2 do 
+													@pb.fraction = 0 + 0.1
+												end			
+												@p_info.text = "  Reading #{@encrypt_txt_select}"
+												@encrypt_file_string = File.read("#{@encrypt_txt_select}")
+												until @pb.fraction = 0.4 do
+													@pb.fraction = 0.2 + 0.1
+												end	
+												@p_info.text = "  Replacing content, please wait..."
+												i = @encrypt_file_string
+												extract = 0 
+												newstring = ""
+												while extract < i.length
+													a = i[extract].ord
+													b = @@crypt_final[a].to_s
+													newstring = newstring + b
+													extract = extract + 1
+												end
+												@encrypt_file_string = newstring
+												until @pb.fraction = 0.6 do 
+													@pb.fraction = 0.4 + 0.1
+												end
+												@p_info.text = "  Using secret key and scrambling content, please wait..."
+												final_shuffle =  newstring.to_i * @@crypt_final[129].to_i
+												final_encrypt = final_shuffle.to_s.reverse 
+												until @pb.fraction = 0.8 do 
+													@pb.fraction = 0.6 + 0.1
+												end
+												@p_info.text = "  Encryption complete, writing to #{@encrypt_txt_save_select_truncate}.txt"
+												File.open("#{@encrypt_txt_save_select_truncate}.txt", "a") do |encrypt|
+													encrypt.write "#{final_encrypt}"
+												end
+												until @pb.fraction = 1.0 do 
+													@pb.fraction = 0.8 + 0.1
+												end
+												@p_info.text = "  Successfully completed!!!"
 										end
-										if @encrypt_text.text.include? ""
-											encrypt_file_string = newsting
-											
-										end
-										final_shuffle =  newsting.to_i * @@crypt_final[129].to_i
-										final_encrypt = final_shuffle.to_s.reverse 
-										File.open("#{@encrypt_txt_save_select}.txt", "a") do |encrypt|
-											encrypt.write "#{final_encrypt}"
-										end
-										alert "Encryption Complete!", title: "Process Alert"    
-									end								
+									end
 									para "  "
 									button "Go Back" do
 										close
@@ -246,6 +264,11 @@
 							end
 						end
 					end
+				end
+				para ""
+				flow do 
+					para "                    	      "
+					button "Decrypt" do visit "/decrypt" end				
 				end 
 			end
 		end 
@@ -263,26 +286,29 @@
 								para "  "
 								@decrypt_text = edit_box " Enter your encrypted message here!", :height => 300, :width => 570
 							end
-							para ""	
+							@p_info = para "  ", :stroke => green
 							flow do
 								para "  "
 								button "Decrypt" do 
-									@decrypt_file_conv = @decrypt_text.text
-									@decrypt_file_conv2 = @decrypt_file_conv.reverse 
-									@decrypt_file_conv3 =  @decrypt_file_conv2.to_i / @@crypt_final[129].to_i
-									@decrypt_file_string = @decrypt_file_conv3.to_s
-									if @decrypt_file_string.include? ""
-										@decrypt_file_string.gsub! @@crypt_final[0], "0"
-										u=0
-										while u <= 128
-											@decrypt_file_string.gsub! @@crypt_final[u], u.chr	
-											u = u +1
+									Thread.new do 
+										@decrypt_file_conv = @decrypt_text.text
+										@p_info.text = "  Using secret key and unscrambling content, please wait..."
+										@decrypt_file_conv2 = @decrypt_file_conv.reverse 
+										@decrypt_file_conv3 =  @decrypt_file_conv2.to_i / @@crypt_final[129].to_i
+										@decrypt_file_string = @decrypt_file_conv3.to_s
+										@p_info.text = "  Replacing content, please wait..."
+										if @decrypt_file_string.include? ""
+											@decrypt_file_string.gsub! @@crypt_final[0], "0"
+											u = 0
+											while u <= 128
+												@decrypt_file_string.gsub! @@crypt_final[u], u.chr	
+												u = u + 1
+											end
 										end
-										
+										final_decrypt = @decrypt_file_string.to_s
+										@decrypt_text.text = "#{final_decrypt}"
+										@p_info.text = "  Successfully completed!!!"
 									end
-									final_decrypt = @decrypt_file_string.to_s
-									@decrypt_text.text = "#{final_decrypt}"
-									alert "Decryption Complete!", title: "Process Alert"
 								end
 								para "  "
 								button "Go Back" do
@@ -302,7 +328,7 @@
 							para ""
 							flow do
 								para "  "
-								@decrypt_txt_box = edit_line "", :width => 570
+								@decrypt_txt_box = edit_line "Use button below to select file!", :width => 570
 							end
 							flow do
 								para "  "
@@ -314,37 +340,64 @@
 							para ""
 							flow do
 								para "  "
-								@decrypt_txt_save_box = edit_line "", :width => 570
+								@decrypt_txt_save_box = edit_line "Use button below to select save location!", :width => 570
 							end
 							flow do
 								para "  "
 								button "Select Save Location..." do
 									@decrypt_txt_save_select = ask_save_file title: "Select Save Location...", types: {"Text File" => "*.txt"}
 									@decrypt_txt_save_box.text = "#{@decrypt_txt_save_select}"
+									@decrypt_txt_save_select_truncate = @decrypt_txt_save_box.text.chomp(".txt")
+									@decrypt_txt_save_box.text = "#{@decrypt_txt_save_select_truncate}"
 								end
 							end	
-							para "\n"
+							flow do 
+								para "  "
+								@pb = progress :width => 570
+							end 
+							@p_info = para "  ", :stroke => green
 							flow do
 								para "  "
 								button "Decrypt" do 
-									@decrypt_file_conv = @decrypt_text.text
-									@decrypt_file_conv2 = @decrypt_file_conv.reverse 
-									@decrypt_file_conv3 =  @decrypt_file_conv2.to_i / @@crypt_final[129].to_i
-									@decrypt_file_string = @decrypt_file_conv3.to_s
-									if @decrypt_file_string.include? ""
-										@decrypt_file_string.gsub! @@crypt_final[0], "0"
-										u=0
-										while u <= 128
-											@decrypt_file_string.gsub! @@crypt_final[u], u.chr	
-											u = u +1
+									Thread.new do 
+										until @pb.fraction = 0.2 do 
+											@pb.fraction = 0 + 0.1
 										end
-										
+										@p_info.text = "  Reading #{@decrypt_txt_select}"
+										@decrypt_file_string = File.read("#{@decrypt_txt_select}")
+										@decrypt_file_conv = @decrypt_file_string
+										@decrypt_file_conv2 = @decrypt_file_conv.reverse 
+										until @pb.fraction = 0.4 do 
+											@pb.fraction = 0.2 + 0.1
+										end
+										@p_info.text = "  Using secret key and unscrambling content, please wait..."
+										@decrypt_file_conv3 =  @decrypt_file_conv2.to_i / @@crypt_final[129].to_i
+										@decrypt_file_string = @decrypt_file_conv3.to_s
+										until @pb.fraction = 0.6 do 
+											@pb.fraction = 0.4 + 0.1
+										end
+										@p_info.text = "  Replacing content, please wait..."
+										if @decrypt_file_string.include? ""
+											@decrypt_file_string.gsub! @@crypt_final[0], "0"
+											u = 0
+											while u <= 128
+												@decrypt_file_string.gsub! @@crypt_final[u], u.chr	
+												u = u + 1
+											end
+										end
+										final_decrypt = @decrypt_file_string.to_s
+										until @pb.fraction = 0.8 do 
+											@pb.fraction = 0.6 + 0.1
+										end
+										@p_info.text = "  Decryption complete, writing to #{@encrypt_txt_save_select_truncate}.txt"
+										File.open("#{@decrypt_txt_save_select}.txt", "a") do |decrypt|
+											decrypt.write "#{final_decrypt}"
+										end
+										until @pb.fraction = 1.0 do 
+											@pb.fraction = 0.8 + 0.1
+										end
+										@p_info.text = "  Successfully completed!!!"		
 									end
-									final_decrypt = @decrypt_file_string.to_s
-									File.open("#{@decrypt_txt_save_select}.txt", "a") do |decrypt|
-										decrypt.write "#{final_decrypt}"
-									end
-									alert "Decryption Complete!", title: "Process Alert"
 								end								
 									para "  "
 									button "Go Back" do
@@ -356,7 +409,12 @@
 					end
 				end 
 			end
+			para ""
+			flow do 
+				para "                    	      "
+				button "Encrypt" do visit "/encrypt" end				
+			end 
 		end
 	end
 
-	Shoes.app :title => "GuptaK power by @ thrisen.com", height: 260, width: 330, menus: true
+	Shoes.app :title => "GuptaK", height: 300, width: 330, menus: true
