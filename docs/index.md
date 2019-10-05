@@ -1,7 +1,7 @@
 
-Derived from the Sinhalese word Guptakētanaya, GuptaK aims to provide a simple solution for message obfuscatio
-
 [![GitHub watchers](https://img.shields.io/github/watchers/JDsnyke/GuptaK.svg?style=social&label=Watch)](https://github.com/JDsnyke/GuptaK/subscription) [![GitHub stars](https://img.shields.io/github/stars/JDsnyke/GuptaK.svg?style=social&label=Stars)](https://github.com/JDsnyke/GuptaK/stargazers) [![GitHub forks](https://img.shields.io/github/forks/JDsnyke/GuptaK.svg?style=social&label=Fork)](https://github.com/JDsnyke/GuptaK/fork)
+
+Derived from the Sinhalese word Guptakētanaya, GuptaK aims to provide a simple solution for message obfuscation.
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/JDsnyke/GuptaK.svg) ![GitHub issues](https://img.shields.io/github/issues/JDsnyke/GuptaK.svg) ![GitHub pull requests](https://img.shields.io/github/issues-pr/JDsnyke/GuptaK.svg) ![GitHub repo size in bytes](https://img.shields.io/github/repo-size/JDsnyke/GuptaK.svg)
 
