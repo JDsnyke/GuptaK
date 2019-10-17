@@ -50,11 +50,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 2. Click 'Ok' to proceed.
 
-<p><img src="/docs/images/ft_01.png" alt="" style="height:200px;" /></p>
+<p><img src="/docs/images/ft_02.png" alt="" style="height:200px;" /></p>
 
 3. Your 'Crypt Keys' have been reset!
 
-<p><img src="/docs/images/ft_01.png" alt="" style="height:200px;" /></p>
+<p><img src="/docs/images/ft_03.png" alt="" style="height:200px;" /></p>
 
 ## Screenshots
 
