@@ -1,6 +1,10 @@
 
 #!/usr/bin/env ruby  
 
+	Shoes.setup do
+		gem 'fetcher', '~> 0.4.5'
+	end
+
 	class GuptaK < Shoes
 		url "/", :mainscreen
 		url "/encrypt", :encryptscreen
@@ -23,17 +27,17 @@
 					end
 					@@crypt_final = @crypt_int
 					alert "Cypher keys have been reset.\n\nRemember to keep a backup copy!", title: "Reset Keys"
-					debug "Cypher keys have been reset!"
+					info "Cypher keys have been reset!"
 				end
 			end
 			helpmenu << @cypheritem
 			@backupcypheritem = menuitem "Backup Keys" do
-				if confirm "Are you sure you wish to proceed? This will,\n\n    * asasa\n\n    * asasasa\n\n    * asasas\n\n", title: "Backup Keys"
+				if confirm "Are you sure you wish to proceed? This will,\n\n    * Backup your keys to a location of your choice.\n\n    * Expose your keys to anyone you share it with!\n\n    * Allow you to restore new and old backups as required!\n\n", title: "Backup Keys"
 					@cypher_backup = ask_save_file title: "Select Backup Location..."
 					require 'fileutils'
 					FileUtils.cp("assets/keys/crypt.gkey", "#{@cypher_backup}.gkey")
 					alert "Keys have been backed up to '#{@cypher_backup}'!", title: "Backup Keys"
-					debug "Keys have been backed up to '#{@cypher_backup}'!"
+					info "Keys have been backed up to '#{@cypher_backup}'!"
 				end
 			end
 			helpmenu << @backupcypheritem
@@ -47,7 +51,7 @@
 					File.open("assets/temp/crypt.rb", "w") {|clear_temp_crypt| clear_temp_crypt.truncate(0)}
 					FileUtils.cp("#{@cypher_restore}", "assets/keys/crypt.gkey")
 					alert "Keys have been restored using '#{@cypher_restore}'!", title: "Restore Keys"
-					debug "Keys have been restored using '#{@cypher_restore}'!"
+					info "Keys have been restored using '#{@cypher_restore}'!"
 				end
 			end
 			helpmenu << @restorecypheritem
@@ -86,13 +90,16 @@
 								else
 									@fix_failed_setting_final = "No"								
 								end
-							
+								
 								File.open("assets/temp/settings.rb", "w+") do |settings|
-									settings.write "module Setup\n\n"
+									settings.write "module G_Setup\n\n"
 									settings.write "	@@update_setting = '#{@update_setting_final}'\n"
 									settings.write "	@@fix_failed_setting = '#{@fix_failed_setting_final}'\n\n"
 									settings.write "end\n"
 								end
+								@p_info.text = "   Settings have been saved!"
+								@p_info.stroke = green
+								info "Settings have been saved!"
 							end
 							para "  "
 							button "Go Back" do
@@ -100,12 +107,12 @@
 							end
 						end
 						
-						# Load saved settings when window 
+						# Load saved settings when window launches
 			
 						require 'assets/temp/settings'
-						debug "Loaded saved settings!"
+						info "Loaded saved settings!"
 						
-						if Setup.class_variable_get(:@@update_setting) == "Yes"
+						if G_Setup.class_variable_get(:@@update_setting) == "Yes"
 							@update_setting_y.checked = true
 							@update_setting_n.checked = false
 						else
@@ -113,7 +120,7 @@
 							@update_setting_y.checked = false
 						end
 						
-						if Setup.class_variable_get(:@@fix_failed_setting) == "Yes"
+						if G_Setup.class_variable_get(:@@fix_failed_setting) == "Yes"
 							@fix_failed_setting_y.checked = true
 							@fix_failed_setting_n.checked = false
 						else
@@ -135,35 +142,85 @@
 			helpmenu << updateseperator
 			@updateitem =  menuitem "Check for Updates...", key: "control_u" do
 			
-				Thread.new do 
-					download "https://github.com/JDsnyke/GuptaK/raw/master/assets/version/latest.ver", :save => "assets/version/latest.ver"
-					debug "Downloaded latest.ver from Github!"
-				end
-
+				require 'fetcher'
+				Fetcher.copy("https://raw.githubusercontent.com/JDsnyke/GuptaK/master/assets/version/latest.ver", "assets/version/latest.ver")
+				info "Fetched latest.ver from Github!"
+				
 				latest_ver = File.read("assets/version/latest.ver")
 				current_ver = File.read("assets/version/current.ver")
 
 				require 'fileutils'
-				
-				if FileUtils.compare_file("assets/version/latest.ver", "assets/version/current.ver") == true
+				if FileUtils.cmp("assets/version/latest.ver", "assets/version/current.ver") == true
 					alert "Congrats! You are running the latest version of GuptaK.", title: "Check for Updates"
 				else
 					if confirm "This app is outdated! \n\nVisit the repo for the latest version?\n\n", title: "Check for Updates"
 						updatelink = "https://www.github.com/JDsnyke/GuptaK/releases/latest"
 						if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
 							system "start #{updatelink}"
-							debug "Launched repo link in browser!"
+							info "Launched repo link in browser!"
 						elsif RbConfig::CONFIG['host_os'] =~ /darwin/
 							system "open #{updatelink}"
-							debug "Launched repo link in browser!"
+							info "Launched repo link in browser!"
 						elsif RbConfig::CONFIG['host_os'] =~ /linux|bsd/
 							system "xdg-open #{updatelink}"
-							debug "Launched repo link in browser!"
+							info "Launched repo link in browser!"
 						end 
 					end
 				end
+				
 			end
 			helpmenu << @updateitem
+			
+			require 'fileutils'
+			latest_ver = File.read("assets/version/latest.ver")
+			current_ver = File.read("assets/version/current.ver")
+
+			if (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/) && (FileUtils.cmp("assets/version/latest.ver", "assets/version/current.ver") == false)	
+				@updatedownload = menuitem "Download & Install Update" do
+					window :title => "GuptaK - Download & Install Update", height: 190 do
+						stack do 
+							flow do 
+								st_time = Time.now
+								stack do
+									stack :margin => 10 do
+									  dld = nil
+									  para "Downloading latest GuptaK-Setup-x64.exe...\n", :margin => 0
+									  d = inscription "Beginning transfer.", :margin => 0
+									  p = progress :width => 1.0, :height => 14
+									  @url = "https://github.com/JDsnyke/GuptaK/releases/download/" + "#{latest_ver}" + "/GuptaK-Setup-x64.exe"
+									  @dld = download @url, :save => "assets/updates/GuptaK-Setup-x64.exe",
+										:pause => 0.02,
+										:progress => proc { |dl| 
+											d.text = "Transferred #{dl.transferred} of #{dl.length} bytes (#{dl.percent.to_s[0..3]}%)"
+											d.stroke = blue
+											p.fraction = dl.percent
+										 },
+										:finish => proc { |dl|
+											end_time = Time.now
+											secs = (end_time.to_i - st_time.to_i)
+											kb = dl.length < 1024 ? 1: dl.length / 1024
+											d.text = "Download completed! -- KB/s: #{kb/secs} seconds: #{secs}. File saved to assets/updates/GuptaK-Setup-x64.exe!"
+											d.stroke = green
+											info "Latest binary has been downloaded to assets/updates/GuptaK-Setup-x64.exe"
+											saved_upd_file = "assets/updates/GuptaK-Setup-x64.exe"
+											system "start #{saved_upd_file}"
+										  }
+									end
+								end
+							end
+							para ""
+							flow do 
+								para "  "
+								button "Go Back" do
+									close
+								end
+							end 
+						end
+					end
+				end
+				helpmenu << @updatedownload
+			end
+			
 			@repoitem = menuitem "Visit Repo" do
 				repolink = "https://www.github.com/JDsnyke/GuptaK"
 				if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
@@ -179,48 +236,52 @@
 			helpmenu << aboutseperator
 			@aboutitem =  menuitem "About", key: "control_i" do
 				current_ver = File.read("assets/version/current.ver")
-				alert "Version : #{current_ver}\n\nRuby Version : #{RUBY_VERSION}\n\nShoes Version : #{Shoes::VERSION_NUMBER}\n\nAuthors : JDsnyke & Thrisen97", title: "About"
+				alert "Version : #{current_ver}\n\nRuby Version : #{RUBY_VERSION}\n\nShoes Version : #{Shoes::VERSION_NUMBER} - #{Shoes::VERSION_REVISION}\n\nAuthors : JDsnyke & Thrisen97", title: "About"
 			end
 			helpmenu << @aboutitem
 			mb << helpmenu
 			
 			# Set @@crypt_final constant at launch
 			
-			Thread.new do 
+			Thread.new do
 				require 'fileutils'
 				FileUtils.cp("assets/keys/crypt.gkey", "assets/temp/crypt.rb")
 				require "assets/temp/crypt"
 				@@crypt_final = Crypt.class_variable_get(:@@cypher_bak)
 				File.open("assets/temp/crypt.rb", "w") {|clear_temp_crypt| clear_temp_crypt.truncate(0)}	
-				debug "Loaded constants from temp files!"
+				info "Loaded constants from temp files!"
 			end
 			
 			# Check for update at launch
 			
-			Thread.new do 
+			Thread.new do
 				require 'assets/temp/settings'
-				@@update_final = Setup.class_variable_get(:@@update_setting)
+				@@update_final = G_Setup.class_variable_get(:@@update_setting)
 				
 				if @@update_final == 'Yes'
-					download "https://github.com/JDsnyke/GuptaK/raw/master/assets/version/latest.ver", :save => "assets/version/latest.ver"
-					debug "Downloaded latest.ver from Github!"		
+					require 'fetcher'
+					Fetcher.copy("https://raw.githubusercontent.com/JDsnyke/GuptaK/master/assets/version/latest.ver", "assets/version/latest.ver")
+					info "Fetched latest.ver from Github!"
 				end
 			end
 			
 			# Delete failed and accidental remnants at launch
 			
-			Thread.new do  
+			Thread.new do
 				require 'assets/temp/settings'
-				@@fix_failed_final = Setup.class_variable_get(:@@fix_failed_setting)
+				@@fix_failed_final = G_Setup.class_variable_get(:@@fix_failed_setting)
 				
 				if @@fix_failed_final == 'Yes' && File.exist?(".gkey")
 					File.delete(".gkey")
-					debug "Failed and accidental remnants were cleaned!"			
+					info "Failed and accidental remnants were cleaned!"			
 				elsif @@fix_failed_final == 'Yes' && File.exist?(".txt")
 					File.delete(".txt")
-					debug "Failed and accidental remnants were cleaned!"			
+					info "Failed and accidental remnants were cleaned!"
+				elsif @@fix_failed_final == 'Yes' && File.exist?("assets/updates/GuptaK-Setup-x64.exe")
+					File.delete("assets/updates/GuptaK-Setup-x64.exe")
+					info "Old update binaries were cleaned!"
 				end
-			end
+			end			
 
 			# Body
 			
@@ -258,28 +319,48 @@
 									para "  "
 									button "Encrypt" do 
 										Thread.new do
-											@encrypt_file_string = @encrypt_text.text
-											@p_info.text = "  Replacing content, please wait..."
-											@p_info.stroke = orange
-											i = @encrypt_file_string
-											extract = 0
-											newstring = ""
-											while extract < i.length
-												a = i[extract].ord
-												b = @@crypt_final[a].to_s
-												newstring = newstring + b
-												extract = extract + 1
+											if @encrypt_text.text() == " Enter your super secret message here!"
+												@p_info.text = "  Error! Try typing something in the above text box!"
+												@p_info.stroke = red
+												error "Encrypt - Type-in Message :#{@p_info}"
+											elsif @encrypt_text.text() == ""
+												@p_info.text = "  Error! Text box should not be blank!"
+												@p_info.stroke = red
+												error "Encrypt - Type-in Message :#{@p_info}"
+											elsif @encrypt_text.text() == " "
+												@p_info.text = "  Error! Text box should not be blank!"
+												@p_info.stroke = red
+												error "Encrypt - Type-in Message :#{@p_info}"
+											else
+												@encrypt_file_string = @encrypt_text.text
+												@p_info.text = "  Replacing content, please wait..."
+												@p_info.stroke = blue
+												i = @encrypt_file_string
+												extract = 0
+												newstring = ""
+												while extract < i.length
+													a = i[extract].ord
+													b = @@crypt_final[a].to_s
+													newstring = newstring + b
+													extract = extract + 1
+												end
+												if @encrypt_text.text.include? ""
+													encrypt_file_string = newstring
+												end
+												@p_info.text = "  Using secret key and scrambling content, please wait..."
+												final_shuffle =  newstring.to_i * @@crypt_final[129].to_i
+												final_encrypt = final_shuffle.to_s.reverse 
+												@encrypt_text.text = "#{final_encrypt}"
+												if @decrypt_text.text() == "0"
+													@p_info.text = "  Error!"
+													@p_info.stroke = red
+													error "Encrypt - Type-in Message :#{@p_info}"
+												else 
+													@p_info.text = "  Successfully completed!!!"
+													@p_info.stroke = green
+													info "Encrypted content successfully!"
+												end
 											end
-											if @encrypt_text.text.include? ""
-												encrypt_file_string = newstring
-											end
-											@p_info.text = "  Using secret key and scrambling content, please wait..."
-											final_shuffle =  newstring.to_i * @@crypt_final[129].to_i
-											final_encrypt = final_shuffle.to_s.reverse 
-											@encrypt_text.text = "#{final_encrypt}"
-											@p_info.text = "  Successfully completed!!!"
-											@p_info.stroke = green
-											debug "Encrypted content successfully!"
 										end
 									end
 									para "  "
@@ -351,45 +432,59 @@
 									para "  "
 									button "Encrypt" do
 										Thread.new do
-											until @pb.fraction = 0.2 do 
-												@pb.fraction = 0 + 0.1
-											end			
-											@p_info.text = "  Reading #{@encrypt_txt_box.text}..."
-											@p_info.stroke = orange
-											@encrypt_file_string = File.read("#{@encrypt_txt_box.text}")
-											until @pb.fraction = 0.4 do
-												@pb.fraction = 0.2 + 0.1
-											end	
-											@p_info.text = "  Replacing content, please wait..."
-											i = @encrypt_file_string
-											extract = 0 
-											newstring = ""
-											while extract < i.length
-												a = i[extract].ord
-												b = @@crypt_final[a].to_s
-												newstring = newstring + b
-												extract = extract + 1
+											if @encrypt_txt_save_box.text() == "Use button below to select save location!"
+												@p_info.text = "  Error! Try selecting a save location!"
+												@p_info.stroke = red
+												error "Encrypt - Select Text File :#{@p_info}"
+											elsif @encrypt_txt_save_box.text() == ""
+												@p_info.text = "  Error! Save location should not be blank!"
+												@p_info.stroke = red
+												error "Encrypt - Select Text File :#{@p_info}"
+											elsif @encrypt_txt_save_box.text() == " "
+												@p_info.text = "  Error! Save location should not be blank!"
+												@p_info.stroke = red
+												error "Encrypt - Select Text File :#{@p_info}"
+											else
+												until @pb.fraction = 0.2 do 
+													@pb.fraction = 0 + 0.1
+												end			
+												@p_info.text = "  Reading #{@encrypt_txt_box.text}..."
+												@p_info.stroke = blue
+												@encrypt_file_string = File.read("#{@encrypt_txt_box.text}")
+												until @pb.fraction = 0.4 do
+													@pb.fraction = 0.2 + 0.1
+												end	
+												@p_info.text = "  Replacing content, please wait..."
+												i = @encrypt_file_string
+												extract = 0 
+												newstring = ""
+												while extract < i.length
+													a = i[extract].ord
+													b = @@crypt_final[a].to_s
+													newstring = newstring + b
+													extract = extract + 1
+												end
+												@encrypt_file_string = newstring
+												until @pb.fraction = 0.6 do 
+													@pb.fraction = 0.4 + 0.1
+												end
+												@p_info.text = "  Using secret key and scrambling content, please wait..."
+												final_shuffle =  newstring.to_i * @@crypt_final[129].to_i
+												final_encrypt = final_shuffle.to_s.reverse 
+												until @pb.fraction = 0.8 do 
+													@pb.fraction = 0.6 + 0.1
+												end
+												@p_info.text = "  Encryption complete, writing to #{@encrypt_txt_save_box.text}.txt"
+												File.open("#{@encrypt_txt_save_box.text}.txt", "w+") do |encrypt|
+													encrypt.write "#{final_encrypt}"
+												end
+												until @pb.fraction = 1.0 do 
+													@pb.fraction = 0.8 + 0.1
+												end
+												@p_info.text = "  Successfully completed!!!"
+												@p_info.stroke = green
+												info "Encrypted file saved to #{@encrypt_txt_save_box.text}.txt"
 											end
-											@encrypt_file_string = newstring
-											until @pb.fraction = 0.6 do 
-												@pb.fraction = 0.4 + 0.1
-											end
-											@p_info.text = "  Using secret key and scrambling content, please wait..."
-											final_shuffle =  newstring.to_i * @@crypt_final[129].to_i
-											final_encrypt = final_shuffle.to_s.reverse 
-											until @pb.fraction = 0.8 do 
-												@pb.fraction = 0.6 + 0.1
-											end
-											@p_info.text = "  Encryption complete, writing to #{@encrypt_txt_save_box.text}.txt"
-											File.open("#{@encrypt_txt_save_box.text}.txt", "w+") do |encrypt|
-												encrypt.write "#{final_encrypt}"
-											end
-											until @pb.fraction = 1.0 do 
-												@pb.fraction = 0.8 + 0.1
-											end
-											@p_info.text = "  Successfully completed!!!"
-											@p_info.stroke = green
-											debug "Encrypted file saved to #{@encrypt_txt_save_box.text}.txt"
 										end
 									end
 									para "  "
@@ -427,26 +522,47 @@
 								para "  "
 								button "Decrypt" do 
 									Thread.new do
-										@decrypt_file_conv = @decrypt_text.text
-										@p_info.text = "  Using secret key and unscrambling content, please wait..."
-										@p_info.stroke = orange
-										@decrypt_file_conv2 = @decrypt_file_conv.reverse 
-										@decrypt_file_conv3 =  @decrypt_file_conv2.to_i / @@crypt_final[129].to_i
-										@decrypt_file_string = @decrypt_file_conv3.to_s
-										@p_info.text = "  Replacing content, please wait..."
-										if @decrypt_file_string.include? ""
-											@decrypt_file_string.gsub! @@crypt_final[0], "0"
-											u = 0
-											while u <= 128
-												@decrypt_file_string.gsub! @@crypt_final[u], u.chr	
-												u = u + 1
+										@decrypt_error = @decrypt_text.text()
+										if @decrypt_text.text() == " Enter your encrypted message here!"
+											@p_info.text = "  Error! Try typing something in the above text box!"
+											@p_info.stroke = red
+											error "Decrypt - Type-in Message :#{@p_info}"
+										elsif @decrypt_text.text() == ""
+											@p_info.text = "  Error! Text box should not be blank!"
+											@p_info.stroke = red
+											error "Decrypt - Type-in Message :#{@p_info}"
+										elsif @decrypt_text.text() == " "
+											@p_info.text = "  Error! Text box should not be blank!"
+											@p_info.stroke = red
+											error "Decrypt - Type-in Message :#{@p_info}"
+										else
+											@decrypt_file_conv = @decrypt_text.text
+											@p_info.text = "  Using secret key and unscrambling content, please wait..."
+											@p_info.stroke = blue
+											@decrypt_file_conv2 = @decrypt_file_conv.reverse 
+											@decrypt_file_conv3 =  @decrypt_file_conv2.to_i / @@crypt_final[129].to_i
+											@decrypt_file_string = @decrypt_file_conv3.to_s
+											@p_info.text = "  Replacing content, please wait..."
+											if @decrypt_file_string.include? ""
+												@decrypt_file_string.gsub! @@crypt_final[0], "0"
+												u = 0
+												while u <= 128
+													@decrypt_file_string.gsub! @@crypt_final[u], u.chr	
+													u = u + 1
+												end
+											end
+											final_decrypt = @decrypt_file_string.to_s
+											@decrypt_text.text = "#{final_decrypt}"
+											if @decrypt_text.text() == "0"
+												@p_info.text = "  Error!"
+												@p_info.stroke = red
+												error "Decrypt - Type-in Message :#{@p_info}"
+											else 
+												@p_info.text = "  Successfully completed!!!"
+												@p_info.stroke = green
+												info "Decrypted content successfully!"
 											end
 										end
-										final_decrypt = @decrypt_file_string.to_s
-										@decrypt_text.text = "#{final_decrypt}"
-										@p_info.text = "  Successfully completed!!!"
-										@p_info.stroke = green
-										debug "Decrypted content successfully!"
 									end
 								end
 								para "  "
@@ -517,46 +633,66 @@
 								para "  "
 								button "Decrypt" do 
 									Thread.new do 
-										until @pb.fraction = 0.2 do 
-											@pb.fraction = 0 + 0.1
-										end
-										@p_info.text = "  Reading #{@decrypt_txt_box.text}..."
-										@p_info.stroke = orange
-										@decrypt_file_string = File.read("#{@decrypt_txt_box.text}")
-										@decrypt_file_conv = @decrypt_file_string
-										@decrypt_file_conv2 = @decrypt_file_conv.reverse 
-										until @pb.fraction = 0.4 do 
-											@pb.fraction = 0.2 + 0.1
-										end
-										@p_info.text = "  Using secret key and unscrambling content, please wait..."
-										@decrypt_file_conv3 =  @decrypt_file_conv2.to_i / @@crypt_final[129].to_i
-										@decrypt_file_string = @decrypt_file_conv3.to_s
-										until @pb.fraction = 0.6 do 
-											@pb.fraction = 0.4 + 0.1
-										end
-										@p_info.text = "  Replacing content, please wait..."
-										if @decrypt_file_string.include? ""
-											@decrypt_file_string.gsub! @@crypt_final[0], "0"
-											u = 0
-											while u <= 128
-												@decrypt_file_string.gsub! @@crypt_final[u], u.chr	
-												u = u + 1
+										if @decrypt_txt_save_box.text() == "Use button below to select save location!"
+											@p_info.text = "  Error! Try selecting a save location!"
+											@p_info.stroke = red
+											error "Decrypt - Select Text File :#{@p_info}"
+										elsif @decrypt_txt_save_box.text() == ""
+											@p_info.text = "  Error! Save location should not be blank!"
+											@p_info.stroke = red
+											error "Decrypt - Select Text File :#{@p_info}"
+										elsif @decrypt_txt_save_box.text() == " "
+											@p_info.text = "  Error! Save location should not be blank!"
+											@p_info.stroke = red
+											error "Decrypt - Select Text File :#{@p_info}"
+										else
+											until @pb.fraction = 0.2 do 
+												@pb.fraction = 0 + 0.1
 											end
+											@p_info.text = "  Reading #{@decrypt_txt_box.text}..."
+											@p_info.stroke = blue
+											@decrypt_file_string = File.read("#{@decrypt_txt_box.text}")
+											@decrypt_file_conv = @decrypt_file_string
+											@decrypt_file_conv2 = @decrypt_file_conv.reverse 
+											until @pb.fraction = 0.4 do 
+												@pb.fraction = 0.2 + 0.1
+											end
+											@p_info.text = "  Using secret key and unscrambling content, please wait..."
+											@decrypt_file_conv3 =  @decrypt_file_conv2.to_i / @@crypt_final[129].to_i
+											@decrypt_file_string = @decrypt_file_conv3.to_s
+											until @pb.fraction = 0.6 do 
+												@pb.fraction = 0.4 + 0.1
+											end
+											@p_info.text = "  Replacing content, please wait..."
+											if @decrypt_file_string.include? ""
+												@decrypt_file_string.gsub! @@crypt_final[0], "0"
+												u = 0
+												while u <= 128
+													@decrypt_file_string.gsub! @@crypt_final[u], u.chr	
+													u = u + 1
+												end
+											end
+											final_decrypt = @decrypt_file_string.to_s
+											if final_decrypt == "0"
+												@p_info.text = "  Error!"
+												@p_info.stroke = red
+												error "Decrypt - Select Text File :#{@p_info}"
+											else 
+												until @pb.fraction = 0.8 do 
+													@pb.fraction = 0.6 + 0.1
+												end
+												@p_info.text = "  Decryption complete, writing to #{@decrypt_txt_save_box.text}.txt"
+												File.open("#{@decrypt_txt_save_box.text}.txt", "w+") do |decrypt|
+													decrypt.write "#{final_decrypt}"
+												end
+												until @pb.fraction = 1.0 do 
+													@pb.fraction = 0.8 + 0.1
+												end
+												@p_info.text = "  Successfully completed!!!"
+												@p_info.stroke = green
+												info "Decrypted file saved to #{@decrypt_txt_save_box.text}.txt"
+											end	
 										end
-										final_decrypt = @decrypt_file_string.to_s
-										until @pb.fraction = 0.8 do 
-											@pb.fraction = 0.6 + 0.1
-										end
-										@p_info.text = "  Decryption complete, writing to #{@decrypt_txt_save_box.text}.txt"
-										File.open("#{@decrypt_txt_save_box.text}.txt", "w+") do |decrypt|
-											decrypt.write "#{final_decrypt}"
-										end
-										until @pb.fraction = 1.0 do 
-											@pb.fraction = 0.8 + 0.1
-										end
-										@p_info.text = "  Successfully completed!!!"
-										@p_info.stroke = green
-										debug "Decrypted file saved to #{@decrypt_txt_save_box.text}.txt"
 									end
 								end								
 									para "  "
