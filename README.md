@@ -46,15 +46,15 @@ These instructions will get you a copy of the project up and running on your loc
 
 1. Click 'Reset Keys' under the 'Help' menu.
 
-![](docs/images/ft_01.png)
+<p><img src="/docs/images/ft_01.png" alt="" style="height:200px;" /></p>
 
 2. Click 'Ok' to proceed.
 
-![](docs/images/ft_02.png)
+<p><img src="/docs/images/ft_01.png" alt="" style="height:200px;" /></p>
 
 3. Your 'Crypt Keys' have been reset!
 
-![](/docs/images/ft_03.png)
+<p><img src="/docs/images/ft_01.png" alt="" style="height:200px;" /></p>
 
 ## Screenshots
 

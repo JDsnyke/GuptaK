@@ -1,1 +1,1 @@
-shoes walkabout 3.3.8 r(3412) x86_64-linux 2019-08-31 19:50:31 -0600
+shoes walkabout 3.3.8 r(3415) x86_64-linux 2019-10-05 13:06:07 -0600
