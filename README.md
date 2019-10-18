@@ -44,17 +44,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## First Time Instructions
 
-1. Click 'Reset Keys' under the 'Help' menu.
-
-<p><img src="/docs/images/ft_01.png" alt="" style="height:200px;" /></p>
-
-2. Click 'Ok' to proceed.
-
-<p><img src="/docs/images/ft_02.png" alt="" style="height:200px;" /></p>
-
-3. Your 'Crypt Keys' have been reset!
-
-<p><img src="/docs/images/ft_03.png" alt="" style="height:200px;" /></p>
+Please refer to the [Wiki](https://github.com/JDsnyke/GuptaK/wiki/First-Time-Installation) page!
 
 ## Screenshots
 
