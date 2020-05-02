@@ -16,10 +16,7 @@
 				current_dir = Dir.pwd
 				if confirm "This will replace your current cypher keys and makes all currently encrypted files unusable!\n\nProceed?\n", title: "Reset Keys"
 					system "start #{current_dir}/reset.exe"
-					info "Cypher keys have been reset!"
-					if confirm "You will need to restart the application. Close it now?", title: "Reset Keys"
-						close
-					end
+					close
 				end
 			end
 			helpmenu << @cypheritem
