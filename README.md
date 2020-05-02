@@ -8,6 +8,14 @@
 
 <p align="center"><img src="https://img.shields.io/badge/powered%20by-Ruby%20&amp;%20Shoes%203-orange.svg" alt="powered by Ruby &amp; Shoes 3" /></p>
 
+<p align="center"><img src="https://img.shields.io/badge/windows%20x64-functional%20&%20recommended-success.svg" alt="" /></p>
+
+<p align="center"><img src="https://img.shields.io/badge/windows%20x32-partially%20functional-important.svg" alt="" /></p>
+
+<p align="center"><img src="https://img.shields.io/badge/Max%20OS-untested-critical.svg" alt="" /></p>
+
+<p align="center"><img src="https://img.shields.io/badge/Linux-untested-critical.svg" alt="" /></p>
+
 <p align="center">Derived from the Sinhalese word Guptakētanaya, GuptaK aims to provide a simple solution for message obfuscation.</p>
 
 ## Getting Started
@@ -46,10 +54,6 @@ These instructions will get you a copy of the project up and running on your loc
 
 Please refer to the [Wiki](https://github.com/JDsnyke/GuptaK/wiki/First-Time-Installation) page!
 
-## Screenshots
-
-> WIP
-
 ## Built With
 
 * [Ruby](https://www.ruby-lang.org/en/) - A dynamic, open source programming language with a focus on simplicity and productivity.
@@ -77,9 +81,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Acknowledgments
 
 * [Ruby](https://www.ruby-lang.org/) by by Yukihiro Matsumoto and collaborators.
-* [Shoes 3](https://github.com/shoes/shoes3) by ccoupe and collaborators.
+* [Shoes 3](https://github.com/shoes/shoes3) by why, ccoupe and collaborators.
 * Icons by [icons8](https://icons8.com/).
-* Windows binary using NSIS, themed using gaodeng's [BiuSetup](https://github.com/gaodeng/BiuSetup).
 * Various people and code posted on [Stackoverflow](https://stackoverflow.com/questions/tagged/shoes).
+* Badges by [Shields.io](https://github.com/badges/shields).
+* [Qogir Theme](https://www.gnome-look.org/p/1230631/) by VINCELIUICE.
 * [Thrisen](https://thrisen.com/) for reviewing and optiizing the code.
 * Hat tip to anyone else whose code was used.
