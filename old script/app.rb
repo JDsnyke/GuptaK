@@ -1,6 +1,10 @@
 
 #!/usr/bin/env ruby  
 
+	Shoes.setup do
+		gem 'fetcher', '~> 0.4.5'
+	end
+
 	class GuptaK < Shoes
 		url "/", :mainscreen
 		url "/encrypt", :encryptscreen
@@ -13,12 +17,17 @@
 		    mb = menubar
 			helpmenu = menu "Help"
 			@cypheritem = menuitem "Reset Keys", key: "alt_shift_r" do
-				current_dir = Dir.pwd
 				if confirm "This will replace your current cypher keys and makes all currently encrypted files unusable!\n\nProceed?\n", title: "Reset Keys"
-					system "start #{current_dir}/reset.exe"
+					crypt_var = Array.new(130,"1")
+					@crypt_int = crypt_var.map{"#{rand(1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111..9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999)}"}
+					File.open("assets/keys/crypt.gkey", "w+") do |reset|
+						reset.write "module Crypt\n\n	@@cypher_bak = #{@crypt_int}\n\nend\n"
+					end
+					@@crypt_final = @crypt_int
+					alert "Cypher keys have been reset.\n\nRemember to keep a backup copy!", title: "Reset Keys"
 					info "Cypher keys have been reset!"
-					if confirm "You will need to restart the application. Close it now?", title: "Reset Keys"
-						close
+					if confirm "Restart Application to apply new Cypher keys?", title: "Reset Keys"
+						exit
 					end
 				end
 			end
@@ -28,14 +37,14 @@
 					@cypher_backup = ask_save_file title: "Select Backup Location..."
 					require 'fileutils'
 					FileUtils.cp("assets/keys/crypt.gkey", "#{@cypher_backup}.gkey")
-					alert "Keys have been backed up to '#{@cypher_backup}.gkey'!", title: "Backup Keys"
-					info "Keys have been backed up to '#{@cypher_backup}.gkey'!"
+					alert "Keys have been backed up to '#{@cypher_backup}'!", title: "Backup Keys"
+					info "Keys have been backed up to '#{@cypher_backup}'!"
 				end
 			end
 			helpmenu << @backupcypheritem
 			@restorecypheritem = menuitem "Restore Keys", key: "alt_shift_l" do
 				if confirm "Are you sure you wish to proceed? This will replace any and all local keys!\n\n", title: "Restore Keys"
-					@cypher_restore = ask_open_file title: "Select Restore File...", types: {"GuptaK Key File" => "*.gkey"}
+					@cypher_restore = ask_open_file title: "Select Restore File...", types: {"GuptaK Key File" => "*.gkey", "All" => "*"}
 					require 'fileutils'
 					FileUtils.cp("#{@cypher_restore}", "assets/temp/crypt.rb")
 					require "assets/temp/crypt"
@@ -47,6 +56,107 @@
 				end
 			end
 			helpmenu << @restorecypheritem
+			@settingsitem = menuitem "Settings", key: "control_s" do 
+				window :title => "GuptaK - Settings", height: 220, width: 500 do
+					stack do 
+						para ""
+						flow do 
+							para "  Check for updates at launch : "
+							@update_setting_y = radio :update
+							para "Yes  "
+							@update_setting_n = radio :update
+							para "No"
+						end
+						flow do 
+							para "  Delete failed and accidental remnants at launch : "
+							@fix_failed_setting_y = radio :fix_failed
+							para "Yes  "
+							@fix_failed_setting_n = radio :fix_failed
+							para "No"
+						end
+						if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+							flow do 
+								para "  Theme : "
+								@theme_setting_y = radio :theme
+								para "Light  "
+								@theme_setting_n = radio :theme
+								para "Dark"
+							end
+						else
+							flow do
+								para "  Themes work only on GuptaK installed through the windows exe binary."
+							end
+						end
+						@p_info = para "  "
+						flow do 
+							para "  "
+							button "Save" do
+								if @update_setting_y.checked? == true
+								  @update_setting_final = "Yes"
+								else
+								  @update_setting_final = "No"
+								end
+								
+								if @fix_failed_setting_y.checked? == true
+									@fix_failed_setting_final = "Yes"
+								else
+									@fix_failed_setting_final = "No"								
+								end
+								
+								if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+									if @theme_setting_y.checked? == true
+										@theme_setting_final = "Light"
+									else
+										@theme_setting_final = "Dark"								
+									end
+								end
+								
+								File.open("assets/temp/settings.rb", "w+") do |settings|
+									settings.write "module G_Setup\n\n	@@update_setting = '#{@update_setting_final}'\n	@@fix_failed_setting = '#{@fix_failed_setting_final}'\n	@@theme_setting = '#{@theme_setting_final}'\n\nend\n"
+								end
+								@p_info.text = "   Settings have been saved!"
+								@p_info.stroke = green
+								info "Settings have been saved!"
+							end
+							para "  "
+							button "Go Back" do
+								close
+							end
+						end
+						
+						# Load saved settings when window launches
+			
+						require 'assets/temp/settings'
+						info "Loaded saved settings!"
+						
+						if G_Setup.class_variable_get(:@@update_setting) == "Yes"
+							@update_setting_y.checked = true
+							@update_setting_n.checked = false
+						else
+							@update_setting_n.checked = true
+							@update_setting_y.checked = false
+						end
+						
+						if G_Setup.class_variable_get(:@@fix_failed_setting) == "Yes"
+							@fix_failed_setting_y.checked = true
+							@fix_failed_setting_n.checked = false
+						else
+							@fix_failed_setting_n.checked = true
+							@fix_failed_setting_y.checked = false
+						end
+						
+						if G_Setup.class_variable_get(:@@theme_setting) == "Light"
+							@theme_setting_y.checked = true
+							@theme_setting_n.checked = false
+						else
+							@theme_setting_n.checked = true
+							@theme_setting_y.checked = false
+						end
+						
+					end
+				end
+			end
+			helpmenu << @settingsitem
 			docseperator = menuitem "---"
 			helpmenu << docseperator
 			@licenseitem =  menuitem "View License" do
@@ -56,14 +166,91 @@
 			updateseperator = menuitem "---"
 			helpmenu << updateseperator
 			@updateitem =  menuitem "Check for Updates", key: "control_u" do
-				current_dir = Dir.pwd
-				system "start #{current_dir}/updater.exe"
+			
+				require 'fetcher'
+				Fetcher.copy("https://raw.githubusercontent.com/JDsnyke/GuptaK/master/assets/version/latest.ver", "assets/version/latest.ver")
+				info "Fetched latest.ver from Github!"
+
+				require 'fileutils'
+				if FileUtils.cmp("assets/version/latest.ver", "assets/version/current.ver") == true
+					alert "Congrats! You are running the latest version of GuptaK.", title: "Check for Updates"
+				else
+					if confirm "This app is outdated! \n\nVisit the repo for the latest version?\n\n", title: "Check for Updates"
+						updatelink = "https://www.github.com/JDsnyke/GuptaK/releases/latest"
+						if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+							system "start #{updatelink}"
+							info "Launched repo link in browser!"
+						elsif RbConfig::CONFIG['host_os'] =~ /darwin/
+							system "open #{updatelink}"
+							info "Launched repo link in browser!"
+						elsif RbConfig::CONFIG['host_os'] =~ /linux|bsd/
+							system "xdg-open #{updatelink}"
+							info "Launched repo link in browser!"
+						end 
+					end
+				end
+				
 			end
 			helpmenu << @updateitem
 			
+			require 'fileutils'
+			latest_ver = File.read("assets/version/latest.ver")
+			current_ver = File.read("assets/version/current.ver")
+
+			if (RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/) && (FileUtils.cmp("assets/version/latest.ver", "assets/version/current.ver") == false)	
+				@updatedownload = menuitem "Download & Install Update" do
+					window :title => "GuptaK - Download & Install Update", height: 190 do
+						stack do 
+							flow do 
+								st_time = Time.now
+								stack do
+									stack :margin => 10 do
+										para "Downloading latest GuptaK-Setup-x64.exe...\n", :margin => 0
+										d = inscription "Beginning transfer.", :margin => 0
+										p = progress :width => 1.0, :height => 14
+										@url = "https://github.com/JDsnyke/GuptaK/releases/download/" + "#{latest_ver}" + "/GuptaK-Setup-x64.exe"
+										@dld = download @url, :save => "assets/updates/GuptaK-Setup-x64.exe",
+										:pause => 0.02,
+										:progress => proc { |dl| 
+											d.text = "Transferred #{dl.transferred} of #{dl.length} bytes (#{dl.percent.to_s[0..3]}%)"
+											d.stroke = blue
+											p.fraction = dl.percent
+										},
+										:finish => proc { |dl|
+											end_time = Time.now
+											secs = (end_time.to_i - st_time.to_i)
+											kb = dl.length < 1024 ? 1: dl.length / 1024
+											d.text = "Download completed! -- KB/s: #{kb/secs} seconds: #{secs}. File saved to assets/updates/GuptaK-Setup-x64.exe!"
+											d.stroke = green
+											info "Latest binary has been downloaded to assets/updates/GuptaK-Setup-x64.exe"
+											saved_upd_file = "assets/updates/GuptaK-Setup-x64.exe"
+											system "start #{saved_upd_file}"
+										}
+									end
+								end
+							end
+							para ""
+							flow do 
+								para "  "
+								button "Go Back" do
+									close
+								end
+							end 
+						end
+					end
+				end
+				helpmenu << @updatedownload
+			end
+			
 			@repoitem = menuitem "Visit Repo" do
 				repolink = "https://www.github.com/JDsnyke/GuptaK"
-				system "start #{repolink}"
+				if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+					system "start #{repolink}"
+				elsif RbConfig::CONFIG['host_os'] =~ /darwin/
+					system "open #{repolink}"
+				elsif RbConfig::CONFIG['host_os'] =~ /linux|bsd/
+					system "xdg-open #{repolink}"
+				end
 			end
 			helpmenu << @repoitem
 			aboutseperator = menuitem "---"
@@ -84,18 +271,59 @@
 				@@crypt_final = Crypt.class_variable_get(:@@cypher_bak)
 				File.open("assets/temp/crypt.rb", "w") {|clear_temp_crypt| clear_temp_crypt.truncate(0)}	
 				info "Loaded constants from temp files!"
-			end	
-						
+			end
+			
+			# Check for update at launch
+			
+			Thread.new do
+				require 'assets/temp/settings'
+				@update_final = G_Setup.class_variable_get(:@@update_setting)
+				
+				if @update_final == 'Yes'
+					require 'fetcher'
+					Fetcher.copy("https://raw.githubusercontent.com/JDsnyke/GuptaK/master/assets/version/latest.ver", "assets/version/latest.ver")
+					info "Fetched latest.ver from Github!"
+				end
+			end
+			
 			# Delete failed and accidental remnants at launch
 			
 			Thread.new do
+				require 'assets/temp/settings'
+				@fix_failed_final = G_Setup.class_variable_get(:@@fix_failed_setting)
 				
-				if File.exist?(".gkey")
+				if @fix_failed_final == 'Yes' && File.exist?(".gkey")
 					File.delete(".gkey")
 					info "Failed and accidental remnants were cleaned!"			
-				elsif File.exist?(".txt")
+				elsif @fix_failed_final == 'Yes' && File.exist?(".txt")
 					File.delete(".txt")
 					info "Failed and accidental remnants were cleaned!"
+				elsif @fix_failed_final == 'Yes' && File.exist?("assets/updates/GuptaK-Setup-x64.exe")
+					File.delete("assets/updates/GuptaK-Setup-x64.exe")
+					info "Old update binaries were cleaned!"
+				end
+			end
+			
+			# Set theme
+			
+			Thread.new do
+				if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+				
+					require 'assets/temp/settings'
+					
+					@@theme_final = G_Setup.class_variable_get(:@@theme_setting)
+					
+					if @@theme_final == 'Light'
+						File.open("etc/gtk-3.0/settings.ini", "w+") do |theme|
+							theme.write "[Settings]\ngtk-theme-name=Qogir-Light"
+						end
+						info "Light Theme loaded successfully!"
+					elsif @@theme_final == 'Dark'
+						File.open("etc/gtk-3.0/settings.ini", "w+") do |theme|
+							theme.write "[Settings]\ngtk-theme-name=Qogir-Dark"
+							info "Dark Theme loaded successfully!"
+						end
+					end
 				end
 			end
 			
@@ -107,8 +335,16 @@
 			if installed_shoes_ver =! app_shoes_ver
 				info "Currently running outdated version of Shoes 3"
 				if confirm "An old version of Shoes had been detected.\n\nGuptaK requires Shoes - #{app_shoes_ver} to run properly.\n\nVisit download page?\n", title: "Decrepitated Warning"
-					system "start https://walkabout.mvmanila.com/downloads/windows-downloads/"
-					info "Launched link to latest shoes binary in the browser!"
+					if RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+						system "start https://walkabout.mvmanila.com/downloads/windows-downloads/"
+						info "Launched link to latest shoes binary in the browser!"
+					elsif RbConfig::CONFIG['host_os'] =~ /darwin/
+						system "open https://walkabout.mvmanila.com/downloads/osx-downloads/"
+						info "Launched link to latest shoes binary in the browser!"
+					elsif RbConfig::CONFIG['host_os'] =~ /linux|bsd/
+						system "xdg-open http://walkabout.mvmanila.com/downloads/linux-downloads/"
+						info "Launched link to latest shoes binary in the browser!"
+					end 
 				end
 			end
 
@@ -120,8 +356,6 @@
 					para "                    "
 					button "Encrypt", height: 68, width: 160, tooltip: "Encrypt text and files", icon: "assets/images/encrypt-64.png" do visit "/encrypt" end	
 				end
-			end
-			stack do
 				para ""
 				flow do
 					para "                    "

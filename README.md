@@ -82,8 +82,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 * [Ruby](https://www.ruby-lang.org/) by by Yukihiro Matsumoto and collaborators.
 * [Shoes 3](https://github.com/shoes/shoes3) by why, ccoupe and collaborators.
-* Icons by [icons8](https://icons8.com/) and [Monkik](https://www.flaticon.com/authors/monkik).
-* Windows binary using NSIS, themed using gaodeng's [BiuSetup](https://github.com/gaodeng/BiuSetup).
+* Icons by [icons8](https://icons8.com/).
 * Various people and code posted on [Stackoverflow](https://stackoverflow.com/questions/tagged/shoes).
 * Badges by [Shields.io](https://github.com/badges/shields).
 * [Qogir Theme](https://www.gnome-look.org/p/1230631/) by VINCELIUICE.
