@@ -8,14 +8,6 @@
 
 <p align="center"><img src="https://img.shields.io/badge/powered%20by-Ruby%20&amp;%20Shoes%203-orange.svg" alt="powered by Ruby &amp; Shoes 3" /></p>
 
-<p align="center"><img src="https://img.shields.io/badge/windows%20x64-functional%20&%20recommended-success.svg" alt="" /></p>
-
-<p align="center"><img src="https://img.shields.io/badge/windows%20x32-partially%20functional-important.svg" alt="" /></p>
-
-<p align="center"><img src="https://img.shields.io/badge/Max%20OS-untested-critical.svg" alt="" /></p>
-
-<p align="center"><img src="https://img.shields.io/badge/Linux-untested-critical.svg" alt="" /></p>
-
 <p align="center">Derived from the Sinhalese word Guptakētanaya, GuptaK aims to provide a simple solution for message obfuscation.</p>
 
 ## Getting Started
