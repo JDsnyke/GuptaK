@@ -1,12 +1,12 @@
 ;aiu;
 
-[Update]
+[Update 1.0.6]
 Name = GuptaK
-ProductVersion = 1.0.5.0
-URL = https://jdsnyke.github.io/GuptaK/download/updates.txt
-Size = 49262816
-SHA256 = 7A60F246FE85CB6B57826F82E7500988EFCC92170D81DB0BEE5D34F01EB225E5
-MD5 = 93f0222fa26e92336064afa8608d72c4
-ServerFileName = GuptaK - 1.0.5 setup.exe
+ProductVersion = 1.0.6.0
+URL = https://github.com/JDsnyke/GuptaK/releases/download/v1.0.0-alpha.6/GuptaK.-.1.0.6.setup.exe
+Size = 49256976
+SHA256 = 19C488826FC61ECD21541DD86F5E7BA10FC134E708028D8B7D892C7F0E951D93
+MD5 = 564f9eeff5bb5dab78d575c5eebc7f6a
+ServerFileName = GuptaK - 1.0.6 setup.exe
 RegistryKey = HKUD\Software\Shurikan Corp.\GuptaK\Version
-Version = 1.0.5.0
+Version = 1.0.6.0
