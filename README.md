@@ -16,31 +16,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ## Installation
 
-### Windows
-
-* Download the latest [release](https://www.github.com/JDsnyke/GuptaK/releases/latest) .exe file.
-
-* Run the exe file and install GuptaK.
-
-* Launch program!
-
-```x64 only! Use the .shy for x32 systems!```
-
-### Mac OS
-
-* Download the latest version of [Shoes 3](http://walkabout.mvmanila.com/downloads/).
-
-* Download the latest [release](https://www.github.com/JDsnyke/GuptaK/releases/latest) .shy file for OSX.
-
-* Launch the .shy using Shoes 3.
-
-### Linux
-
-* Download the latest version of [Shoes 3](http://walkabout.mvmanila.com/downloads/).
-
-* Download the latest [release](https://www.github.com/JDsnyke/GuptaK/releases/latest) .shy file for Linux. 
-
-* Launch the .shy using Shoes 3.
+Please refer to the instuctions [here](https://github.com/JDsnyke/GuptaK/wiki/Setup-Instructions).
 
 ## First Time Instructions
 
